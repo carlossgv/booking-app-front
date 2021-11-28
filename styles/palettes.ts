@@ -20,7 +20,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           divider: deepOrange[700],
           background: {
             default: deepOrange[900],
-            paper: deepOrange[900],
+            // paper: deepOrange[900],
           },
           text: {
             primary: '#fff',

@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { useTheme } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { ColorModeContext } from '../../../styles/ColorModeContextProvider';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -40,7 +41,7 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
+  // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
 
@@ -48,6 +49,17 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <IconButton
+            sx={{ ml: 1 }}
+            onClick={colorMode.toggleColorMode}
+            color="inherit"
+          >
+            {theme.palette.mode === 'dark' ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </IconButton>{' '}
           <Typography
             variant="h6"
             noWrap
@@ -56,7 +68,6 @@ const ResponsiveAppBar = () => {
           >
             LOGO
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -112,7 +123,6 @@ const ResponsiveAppBar = () => {
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -141,17 +151,6 @@ const ResponsiveAppBar = () => {
                 </MenuItem>
               ))}
             </Menu>
-            <IconButton
-              sx={{ ml: 1 }}
-              onClick={colorMode.toggleColorMode}
-              color="inherit"
-            >
-              {theme.palette.mode === 'dark' ? (
-                <Brightness7Icon />
-              ) : (
-                <Brightness4Icon />
-              )}
-            </IconButton>
           </Box>
         </Toolbar>
       </Container>

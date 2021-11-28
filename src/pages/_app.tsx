@@ -5,35 +5,16 @@ import ResponsiveAppBar from '../components/AppBar/AppBar';
 import Layout from '../components/Layout/Layout';
 import { createTheme, PaletteMode, ThemeProvider } from '@mui/material';
 import getDesignTokens from '../../styles/palettes';
+import { ColorModeContextProvider } from '../../styles/ColorModeContextProvider';
 
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
-
-function MyApp({ Component, pageProps }: AppProps) {
-  const [mode, setMode] = React.useState<PaletteMode>('light');
-  const colorMode = React.useMemo(
-    () => ({
-      // The dark mode switch would invoke this method
-      toggleColorMode: () => {
-        setMode((prevMode: PaletteMode) =>
-          prevMode === 'light' ? 'dark' : 'light'
-        );
-      },
-    }),
-    []
-  );
-
-  // Update the theme only if the mode changes
-  const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
+    <ColorModeContextProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ColorModeContextProvider>
   );
-}
+};
 
 export default MyApp;
