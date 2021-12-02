@@ -1,5 +1,5 @@
-import { PaletteMode } from '@mui/material';
-import { amber, deepOrange, grey } from '@mui/material/colors';
+import { linearProgressClasses, PaletteMode } from '@mui/material';
+import { grey, lime, pink } from '@mui/material/colors';
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
@@ -7,8 +7,10 @@ const getDesignTokens = (mode: PaletteMode) => ({
     ...(mode === 'light'
       ? {
           // palette values for light mode
-          primary: amber,
-          divider: amber[200],
+          primary: {
+            main: '#e91e63',
+          },
+          divider: pink[200],
           text: {
             primary: grey[900],
             secondary: grey[800],
@@ -16,11 +18,10 @@ const getDesignTokens = (mode: PaletteMode) => ({
         }
       : {
           // palette values for dark mode
-          primary: deepOrange,
-          divider: deepOrange[700],
+          primary: pink,
+          secondary: lime,
           background: {
-            default: deepOrange[900],
-            // paper: deepOrange[900],
+            paper: '#212121',
           },
           text: {
             primary: '#fff',

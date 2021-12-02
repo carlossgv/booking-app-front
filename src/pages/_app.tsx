@@ -10,9 +10,20 @@ import { ColorModeContextProvider } from '../../styles/ColorModeContextProvider'
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <ColorModeContextProvider>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <div>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+        <style global jsx>{`
+          html,
+          body,
+          body > div:first-child,
+          div#__next,
+          div#__next > div {
+            height: 100%;
+          }
+        `}</style>
+      </div>
     </ColorModeContextProvider>
   );
 };

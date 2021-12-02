@@ -41,25 +41,20 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  // const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
-
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      style={{
+        backgroundColor: theme.palette.primary.main,
+        flexGrow: 0,
+        flexShrink: 1,
+        flexBasis: 'auto',
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <IconButton
-            sx={{ ml: 1 }}
-            onClick={colorMode.toggleColorMode}
-            color="inherit"
-          >
-            {theme.palette.mode === 'dark' ? (
-              <Brightness7Icon />
-            ) : (
-              <Brightness4Icon />
-            )}
-          </IconButton>{' '}
           <Typography
             variant="h6"
             noWrap
@@ -152,6 +147,17 @@ const ResponsiveAppBar = () => {
               ))}
             </Menu>
           </Box>
+          <IconButton
+            sx={{ ml: 1 }}
+            onClick={colorMode.toggleColorMode}
+            color="inherit"
+          >
+            {theme.palette.mode === 'dark' ? (
+              <Brightness7Icon />
+            ) : (
+              <Brightness4Icon />
+            )}
+          </IconButton>{' '}
         </Toolbar>
       </Container>
     </AppBar>
