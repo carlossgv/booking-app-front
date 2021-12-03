@@ -1,9 +1,12 @@
-/* center class root in the middle of the page */
 .root {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
-  width: 200px;
+  width: 300px;
+  padding: 20px 0;
+}
+
+.formControl {
+  margin: 5px 0;
 }
