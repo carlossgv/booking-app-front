@@ -12,7 +12,6 @@ import {
 } from '@mui/material';
 import styles from './LoginForm.module.css';
 import axios from 'axios';
-import { config } from '../../../config';
 
 const LoginForm = () => {
   const [formState, setFormState] = React.useState({
@@ -22,7 +21,6 @@ const LoginForm = () => {
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('handleChange', event.target.name, event.target.value);
     setFormState({
       ...formState,
       [event.target.name]: event.target.value,
@@ -40,8 +38,7 @@ const LoginForm = () => {
 
       localStorage.setItem('access_token', response.data.access_token);
       window.location.href = '/';
-    } catch (error) {
-      console.log(error.response.data.message);
+    } catch (error: any) {
       setFormState({ ...formState, error: error.response.data.message });
     }
   };
