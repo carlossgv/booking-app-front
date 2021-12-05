@@ -4,6 +4,8 @@ import Button from '@mui/material/Button';
 import { Paper, Box, FormControl, TextField } from '@mui/material';
 import styles from './LoginForm.module.css';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { AuthProvider } from '../../../contexts/auth';
 
 const LoginForm = () => {
   const [formState, setFormState] = React.useState({
@@ -28,7 +30,7 @@ const LoginForm = () => {
         formState
       );
 
-      document.cookie = `access_token=${response.data.access_token}; httpOnly`;
+      Cookies.set('access_token', response.data.access_token);
       window.location.href = '/';
     } catch (error: any) {
       setFormState({ ...formState, error: error.response.data.message });
@@ -50,6 +52,7 @@ const LoginForm = () => {
                 value={formState.email}
                 onChange={handleChange}
                 error={formState.error !== ''}
+                required
               />
             </FormControl>
             <FormControl className={styles.formControl}>
@@ -63,6 +66,7 @@ const LoginForm = () => {
                 onChange={handleChange}
                 error={formState.error !== ''}
                 helperText={formState.error}
+                required
               />
             </FormControl>
             <Button

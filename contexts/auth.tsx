@@ -1,12 +1,14 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import React from 'react';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { IUser } from '../src/helpers/user/user.interface';
 import LoadingPage from '../src/pages/loading/Loading';
 
 const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children }: { children: any }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,29 +35,31 @@ export const AuthProvider = ({ children }: { children: any }) => {
       setLoading(false);
     }
     loadUserFromCookies();
-  }, []);
+  }, [user]);
 
-  // const login = async ({ email, password }) => {
-  //   const { data: token } = await api.post('auth/login', { email, password });
-  //   if (token) {
-  //     console.log('Got token');
-  //     Cookies.set('token', token, { expires: 60 });
-  //     api.defaults.headers.Authorization = `Bearer ${token.token}`;
-  //     const { data: user } = await api.get('users/me');
-  //     setUser(user);
-  //     console.log('Got user', user);
-  //   }
-  // };
+  const login = async (formData: { email: string; password: string }) => {
+    const url = `${process.env.AUTH_URL}/login`;
+    const response = await axios.post(url, formData);
 
-  //   const logou?t = (email, password) => {
-  //     Cookies.remove('token');
-  //     setUser(null);
-  //     delete api.defaults.headers.Authorization;
-  //     window.location.pathname = '/login';
-  //   };
+    const { access_token } = response.data;
+
+    Cookies.set('access_token', access_token);
+
+    // Trick to make loadUserFromCookies to run
+    // TODO: find a proper way to do this
+    setUser({ id: 0, email: 'load@cookies.trigger' });
+  };
+
+  const logout = () => {
+    Cookies.remove('access_token');
+    setUser(null);
+    window.location.pathname = '/login';
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated: !!user, user, loading }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated: !!user, user, loading, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

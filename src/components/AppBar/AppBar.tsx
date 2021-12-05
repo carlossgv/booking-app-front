@@ -16,11 +16,22 @@ import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { ColorModeContext } from '../../../styles/ColorModeContextProvider';
 import { useAuth } from '../../../contexts/auth';
+import PersonIcon from '@mui/icons-material/Person';
+import Cookies from 'js-cookie';
 
 const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
+  // TODO: Create inferface for user
+  const { user, loading, logout } = useAuth();
+
+  const settings = [
+    'Profile',
+    'Account',
+    'Dashboard',
+    user ? 'Logout' : 'Login',
+  ];
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -42,11 +53,24 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleSettings = (event: React.MouseEvent<HTMLElement>) => {
+    const setting = event.currentTarget.textContent;
+
+    if (setting === 'Login') {
+      window.location.href = '/login';
+    }
+    if (setting === 'Logout') {
+      console.log('logout');
+      logout();
+    }
+
+    handleCloseNavMenu;
+  };
+
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
 
-  const { user, loading } = useAuth();
-  console.log(user);
   return (
     <AppBar
       position="static"
@@ -65,7 +89,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            {user?.email}
+            LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -109,7 +133,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            {user?.email}
+            LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
@@ -125,7 +149,9 @@ const ResponsiveAppBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar>
+                  {user ? user.email[0].toUpperCase() : <PersonIcon />}
+                </Avatar>
               </IconButton>
             </Tooltip>
             <Menu
@@ -145,7 +171,7 @@ const ResponsiveAppBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                <MenuItem key={setting} onClick={handleSettings}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
