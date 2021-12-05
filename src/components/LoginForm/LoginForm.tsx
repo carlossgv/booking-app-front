@@ -28,7 +28,7 @@ const LoginForm = () => {
         formState
       );
 
-      document.cookie = `access_token=${response.data.access_token}`;
+      document.cookie = `access_token=${response.data.access_token}; httpOnly`;
       window.location.href = '/';
     } catch (error: any) {
       setFormState({ ...formState, error: error.response.data.message });
