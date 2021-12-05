@@ -6,25 +6,28 @@ import Layout from '../components/Layout/Layout';
 import { createTheme, PaletteMode, ThemeProvider } from '@mui/material';
 import getDesignTokens from '../../styles/palettes';
 import { ColorModeContextProvider } from '../../styles/ColorModeContextProvider';
+import { AuthProvider } from '../../contexts/auth';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
-    <ColorModeContextProvider>
-      <div>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-        <style global jsx>{`
-          html,
-          body,
-          body > div:first-child,
-          div#__next,
-          div#__next > div {
-            height: 100%;
-          }
-        `}</style>
-      </div>
-    </ColorModeContextProvider>
+    <AuthProvider>
+      <ColorModeContextProvider>
+        <div>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          <style global jsx>{`
+            html,
+            body,
+            body > div:first-child,
+            div#__next,
+            div#__next > div {
+              height: 100%;
+            }
+          `}</style>
+        </div>
+      </ColorModeContextProvider>
+    </AuthProvider>
   );
 };
 

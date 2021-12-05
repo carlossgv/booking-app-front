@@ -15,6 +15,7 @@ import { useTheme } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { ColorModeContext } from '../../../styles/ColorModeContextProvider';
+import { useAuth } from '../../../contexts/auth';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -43,6 +44,9 @@ const ResponsiveAppBar = () => {
   };
   const theme = useTheme();
   const colorMode = React.useContext(ColorModeContext);
+
+  const { user, loading } = useAuth();
+  console.log(user);
   return (
     <AppBar
       position="static"
@@ -61,7 +65,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            LOGO
+            {user?.email}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -105,7 +109,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            {user?.email}
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
