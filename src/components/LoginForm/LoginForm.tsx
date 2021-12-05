@@ -5,9 +5,11 @@ import { Paper, Box, FormControl, TextField } from '@mui/material';
 import styles from './LoginForm.module.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { AuthProvider } from '../../../contexts/auth';
+import { AuthProvider, useAuth } from '../../../contexts/auth';
 
 const LoginForm = () => {
+  const { login } = useAuth();
+
   const [formState, setFormState] = React.useState({
     email: '',
     password: '',
@@ -24,16 +26,10 @@ const LoginForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const response = await axios.post(
-        `${process.env.AUTH_URL}/login`,
-        formState
-      );
+    const tryLogin = await login(formState);
 
-      Cookies.set('access_token', response.data.access_token);
-      window.location.href = '/';
-    } catch (error: any) {
-      setFormState({ ...formState, error: error.response.data.message });
+    if (tryLogin.error) {
+      setFormState({ ...formState, error: tryLogin.error });
     }
   };
 

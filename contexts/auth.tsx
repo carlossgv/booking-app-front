@@ -39,15 +39,19 @@ export const AuthProvider = ({ children }: { children: any }) => {
 
   const login = async (formData: { email: string; password: string }) => {
     const url = `${process.env.AUTH_URL}/login`;
-    const response = await axios.post(url, formData);
+    try {
+      const response = await axios.post(url, formData);
+      const { access_token } = response.data;
+      Cookies.set('access_token', access_token);
 
-    const { access_token } = response.data;
-
-    Cookies.set('access_token', access_token);
-
-    // Trick to make loadUserFromCookies to run
-    // TODO: find a proper way to do this
-    setUser({ id: 0, email: 'load@cookies.trigger' });
+      // Trick to make loadUserFromCookies to run
+      // TODO: find a proper way to do this
+      setUser({ id: 0, email: 'load@cookies.trigger' });
+      window.location.pathname = '/';
+    } catch (error: any) {
+      console.log(error.response.data.message);
+      return { error: error.response.data.message };
+    }
   };
 
   const logout = () => {
@@ -58,7 +62,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: !!user, user, loading, logout }}
+      value={{ isAuthenticated: !!user, user, loading, login, logout }}
     >
       {children}
     </AuthContext.Provider>
@@ -67,13 +71,17 @@ export const AuthProvider = ({ children }: { children: any }) => {
 
 export const useAuth = () => useContext(AuthContext);
 
-export const ProtectRoute = ({ children }) => {
-  const { isAuthenticated, isLoading } = useAuth();
-  if (
-    isLoading ||
-    (!isAuthenticated && window.location.pathname !== '/login')
-  ) {
-    return <LoadingPage />;
-  }
-  return children;
-};
+// export const ProtectRoute = ({ children }: { children: any }) => {
+//   const {
+//     isAuthenticated,
+//     isLoading,
+//   }: { isAuthenticated: boolean; isLoading: boolean } = useAuth();
+
+//   if (
+//     isLoading ||
+//     (!isAuthenticated && window.location.pathname !== '/login')
+//   ) {
+//     return <LoadingPage />;
+//   }
+//   return children;
+// };
