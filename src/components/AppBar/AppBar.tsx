@@ -23,6 +23,7 @@ const pages = ['Products', 'Pricing', 'Blog'];
 
 const ResponsiveAppBar = () => {
   // TODO: Create inferface for user
+  // @ts-ignore: Ignore the error
   const { user, loading, logout } = useAuth();
 
   const settings = [

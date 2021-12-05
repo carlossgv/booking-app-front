@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: any }) => {
       const { access_token } = response.data;
       Cookies.set('access_token', access_token);
 
-      // Trick to make loadUserFromCookies to run
+      // Workaround to make loadUserFromCookies to run
       // TODO: find a proper way to do this
       setUser({ id: 0, email: 'load@cookies.trigger' });
       window.location.pathname = '/';

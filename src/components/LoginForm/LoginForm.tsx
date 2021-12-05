@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import { AuthProvider, useAuth } from '../../../contexts/auth';
 
 const LoginForm = () => {
+  // @ts-ignore: Ignore the error
   const { login } = useAuth();
 
   const [formState, setFormState] = React.useState({
