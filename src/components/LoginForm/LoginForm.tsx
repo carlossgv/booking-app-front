@@ -1,15 +1,7 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import {
-  Paper,
-  Box,
-  FormControl,
-  InputLabel,
-  Input,
-  OutlinedInput,
-  TextField,
-} from '@mui/material';
+import { Paper, Box, FormControl, TextField } from '@mui/material';
 import styles from './LoginForm.module.css';
 import axios from 'axios';
 
@@ -36,7 +28,7 @@ const LoginForm = () => {
         formState
       );
 
-      localStorage.setItem('access_token', response.data.access_token);
+      document.cookie = `access_token=${response.data.access_token}; httpOnly`;
       window.location.href = '/';
     } catch (error: any) {
       setFormState({ ...formState, error: error.response.data.message });
