@@ -3,9 +3,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Paper, Box, FormControl, TextField } from '@mui/material';
 import styles from './LoginForm.module.css';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { AuthProvider, useAuth } from '../../../contexts/auth';
+import { useAuth } from '../../../contexts/auth';
 
 const LoginForm = () => {
   // @ts-ignore: Ignore the error

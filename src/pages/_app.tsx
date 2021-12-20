@@ -1,10 +1,7 @@
 import '../../styles/globals.css';
 import type { AppProps } from 'next/app';
 import React from 'react';
-import ResponsiveAppBar from '../components/AppBar/AppBar';
 import Layout from '../components/Layout/Layout';
-import { createTheme, PaletteMode, ThemeProvider } from '@mui/material';
-import getDesignTokens from '../../styles/palettes';
 import { ColorModeContextProvider } from '../../styles/ColorModeContextProvider';
 import { AuthProvider } from '../../contexts/auth';
 
